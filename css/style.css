@@ -5,6 +5,7 @@
 html, body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 12px;
+    height: 100%;
     margin: 0;
     padding: 0;
     text-align: center;
@@ -13,20 +14,22 @@ html, body {
 /**************************************************
 * Map styling
 **************************************************/
-
+// .map-container no longer needed
 .map-container {
     display: block;
     margin-right: 200px;
     padding: 0;
     position: relative;
+    height: 100%;
 }
 
 #map {
-    /* Leave out height until 'Temporary map image' is replaced by map rendered by google maps api
-    height: 100%; */
-    width: 100%;
+    display: block;
+    margin-right: 200px;
+    padding: 0;
+    position: relative;
+    height: 100%;
 }
-
 /**************************************************
 * Form styling
 **************************************************/

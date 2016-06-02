@@ -13,26 +13,27 @@
 
     <body ng-app = "dropMapApp" ng-controller="dropMapController">
         <!-- TODO: Insert Audiodrops website navbar/menu here -->
-    
-        <div class = "map-container">
-<!--            <div id="map"></div>-->
-            <!-- Temporary map image -->
-            <img id = "map" src="resources/NYC_temp.png">
-        </div>
-        <div id="dropForm">
+        
+        <div id="map"></div>
+        
+        <form id="dropForm">
             <h1 class = "formTitle">Temp Form Title</h1>
             <div ng-repeat="x in formData">
                 <p>{{ x.dataType }}</p>
-                <input ng-model="x.value">
+                <input ng-disabled ="$index < 2" ng-model="x.value">
             </div>
-            <button class = "submit-button">Submit</button>
-        </div>
+            <button type="submit" class = "submit-button">Submit</button>
+        </form>
         
+        <!-- Modules -->
         <script src="js/app.js"></script>
+        <!-- Controllers -->
         <script src="js/controllers/dropMapController.js"></script>
-        <!-- Insert google maps api script + key: AIzaSyAf4NliDFP1ZLr-8SL4wfNQ85U7LnZqngk -->
-        <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf4NliDFP1ZLr-8SL4wfNQ85U7LnZqngk&callback=initMap">
-    </script>
+        <!-- Services -->
+        <script src="js/services/asyncInitializer.js"></script>
+        <!-- Insert google maps api script + key -->
+        <!--<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>-->
     </body>
 </html>

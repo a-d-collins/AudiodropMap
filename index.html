@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>AudiodropMap</title>
+
+        <!-- Core AngularJS library -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        
+        <!-- stylesheets -->
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body ng-app = "dropMapApp" ng-controller="dropMapController">
+        <!-- TODO: Insert Audiodrops website navbar/menu here -->
+    
+        <div class = "map-container">
+<!--            <div id="map"></div>-->
+            <!-- Temporary map image -->
+            <img id = "map" src="resources/NYC_temp.png">
+        </div>
+        <div id="dropForm">
+            <h1 class = "formTitle">Temp Form Title</h1>
+            <div ng-repeat="x in formData">
+                <p>{{ x.dataType }}</p>
+                <input ng-model="x.value">
+            </div>
+            <button class = "submit-button">Submit</button>
+        </div>
+        
+        <script src="js/app.js"></script>
+        <script src="js/controllers/dropMapController.js"></script>
+        <!-- Insert google maps api script + key -->
+    </body>
+</html>

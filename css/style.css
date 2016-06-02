@@ -1,0 +1,44 @@
+/**************************************************
+* html, body styling
+**************************************************/
+
+html, body {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/**************************************************
+* Map styling
+**************************************************/
+
+.map-container {
+    display: block;
+    margin-right: 200px;
+    padding: 0;
+    position: relative;
+}
+
+#map {
+    /* Leave out height until 'Temporary map image' is replaced by map rendered by google maps api
+    height: 100%; */
+    width: 100%;
+}
+
+/**************************************************
+* Form styling
+**************************************************/
+
+#dropForm {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+}
+
+/**************************************************
+* Other styling
+**************************************************/

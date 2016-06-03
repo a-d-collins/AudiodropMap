@@ -4,8 +4,13 @@
         <meta charset="UTF-8">
         <title>AudiodropMap</title>
 
-        <!-- Core AngularJS library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <!-- Resources suggested by Angular Google Maps API -->
+        <script src='/resources/Libraries/lodash.js'></script>
+        <script src='/resources/Libraries/angular.min.js'></script>
+        <!-- useful when app is deployed -->
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>-->
+        <script src='/resources/Libraries/angular-simple-logger.js'></script>
+        <script src='/resources/Libraries/angular-google-maps.min.js'></script>
         
         <!-- stylesheets -->
         <link rel="stylesheet" href="css/style.css">
@@ -14,7 +19,7 @@
     <body ng-app = "dropMapApp" ng-controller="dropMapController">
         <!-- TODO: Insert Audiodrops website navbar/menu here -->
         
-        <div id="map"></div>
+        <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
         
         <form id="dropForm">
             <h1 class = "formTitle">Temp Form Title</h1>
@@ -30,7 +35,7 @@
         <!-- Controllers -->
         <script src="js/controllers/dropMapController.js"></script>
         <!-- Services -->
-        <script src="js/services/asyncInitializer.js"></script>
+<!--        <script src="js/services/asyncInitializer.js"></script>-->
         <!-- Insert google maps api script + key -->
         <!--<script async defer
     src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">

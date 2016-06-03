@@ -2,8 +2,8 @@ var app = angular.module('dropMapApp',['uiGmapgoogle-maps']);
 
 app.config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
-        //    key: 'your api key',
-        v: '3.20', //defaults to latest 3.X anyhow
+        key: 'AIzaSyBn-hzp1y730IWw6Zo-fTGZtMYbcbJitTQ',
+        v: '3.24', //defaults to latest 3.X anyhow
         libraries: 'weather,geometry,visualization'
     });
 });

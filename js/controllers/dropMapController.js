@@ -1,4 +1,4 @@
-app.controller('dropMapController', ['$scope', function($scope, uiGmapGoogleMapApi) {
+app.controller('dropMapController', ['$scope', 'uiGmapGoogleMapApi', function($scope, uiGmapGoogleMapApi) {
     // Form data
     // TODO -- Get form from Seth
     
@@ -14,7 +14,7 @@ app.controller('dropMapController', ['$scope', function($scope, uiGmapGoogleMapA
     
     // When maps API is initialized...
     uiGmapGoogleMapApi.then(function(maps) {
-        alert('working');
+        
     });
     
     /*Initializer.mapsInitialized.then(function(){

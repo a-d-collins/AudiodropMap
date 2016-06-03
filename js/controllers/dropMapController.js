@@ -1,4 +1,4 @@
-app.controller('dropMapController', ['$scope', 'Initializer', function($scope, Initializer) {
+app.controller('dropMapController', ['$scope', function($scope, uiGmapGoogleMapApi) {
     // Form data
     // TODO -- Get form from Seth
     
@@ -9,11 +9,15 @@ app.controller('dropMapController', ['$scope', 'Initializer', function($scope, I
         {dataType: "In your opinion, is Paul dead?", value: "Yes"}
     ];
     
-    $scope.map;
+    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
     $scope.markers = [];
     
     // When maps API is initialized...
-    Initializer.mapsInitialized.then(function(){
+    uiGmapGoogleMapApi.then(function(maps) {
+        alert('working');
+    });
+    
+    /*Initializer.mapsInitialized.then(function(){
         // Set center of map
         var haightAshbury = {lat: 37.769, lng: -122.446};
         
@@ -70,7 +74,7 @@ app.controller('dropMapController', ['$scope', 'Initializer', function($scope, I
     // Removes the markers from the map, but keeps them in the array.
     $scope.clearMarkers = function () {
       $scope.setMapOnAll(null);
-    }
+    }*/
     
     /*
     GENERAL IDEA... works as regular JS...

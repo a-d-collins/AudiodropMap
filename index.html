@@ -20,8 +20,11 @@
         <!-- TODO: Insert Audiodrops website navbar/menu here -->
         
         <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events">
-            <ui-gmap-marker coords="map.clickedMarker"  idKey="map.clickedMarker.id" options="map.clickedMarker.options">
-        </ui-gmap-marker>
+            <ui-gmap-marker coords="map.clickedMarker"  idKey="map.clickedMarker.id" options="map.clickedMarker.options"></ui-gmap-marker>
+            <ui-gmap-rectangle bounds="map.rectangle.bounds" stroke="rectangle.stroke" visible="map.rectangle.visible"
+                 fill="map.rectangle.fill" fit="false" editable="map.rectangle.editable" draggable="map.rectangle.draggable"
+                 events="map.rectangle.events">
+        </ui-gmap-rectangle>
         </ui-gmap-google-map>
         
         <form id="dropForm">

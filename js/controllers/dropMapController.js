@@ -14,9 +14,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         center: $scope.mapCenter,
         zoom: 12,
         clickedMarker: {
-            id: 0,
-            options:{
-            }
+            id: 0
         },
         events: {
             click: function (mapModel, eventName, originalEventArgs) {
@@ -35,13 +33,38 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                     options: {
                       labelContent: 'You clicked here ' + 'lat: ' + lat + ' lon: ' + lon,
                       labelClass: "marker-labels",
-                      labelAnchor:"50 0"
+                      labelAnchor:"100 0"
                     }
                 };
                 
+                // Update $scope.formData lat and lng with marker position
+                $scope.formData[0].value = $scope.map.clickedMarker.latitude;
+                $scope.formData[1].value = $scope.map.clickedMarker.longitude;
                 //scope apply required because this event handler is outside of the angular domain
                 $scope.$evalAsync();
             }
+            
+        },
+        rectangle: {
+            bounds:{},
+            stroke: {
+              color: '#08B21F',
+              weight: 2,
+              opacity: 1
+            },
+            fill: {
+              color: 'pink',
+              opacity: 0.5
+            },
+            events:{
+              dblclick: function(){
+                window.alert("rectangle dblclick");
+              }
+            },
+            draggable: true, // optional: defaults to false
+            clickable: true, // optional: defaults to true
+            editable: true, // optional: defaults to false
+            visible: true // optional: defaults to true
         }
     };
     $scope.markers = [];
@@ -49,6 +72,11 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     // When maps API is initialized...
     uiGmapGoogleMapApi.then(function(maps) {
         // It seems like I should be putting all of the Google Maps related functions and variable assignements in here, but I encounter errors each time I try that...
+        console.log(maps);
+        $scope.map.rectangle.bounds = new maps.LatLngBounds(
+          new maps.LatLng(55,-100),
+          new maps.LatLng(49,-78)
+        );
     });
     
     /*$scope.addMarker = function (position) {

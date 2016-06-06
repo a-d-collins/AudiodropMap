@@ -2,6 +2,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     // Form data
     // TODO -- Get form from Seth
     
+    // Data for the form that appears next to the map
     $scope.formData = [
         {dataType: "Longitude", value: undefined},
         {dataType: "Latitude", value: undefined},
@@ -10,12 +11,47 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     ];
     
     $scope.mapCenter = {latitude: 40.738341, longitude: -73.961062};
+    
+    // Main map object. Contains all marker, shape, and other map-related data
     $scope.map= {
         center: $scope.mapCenter,
         zoom: 12,
         clickedMarker: {
-            id: 0
+            id: 0 // Note: All markers must have an id and a corresponding html element
         },
+        events: {
+            // See angular.extend method for more about the available events
+        },
+        rectangle: {
+            bounds:{}
+        }
+    };
+    
+    // When maps API is initialized...
+    uiGmapGoogleMapApi.then(function(maps) {
+        // examine the maps object
+        console.log(maps);
+        // Use maps object to set the bounds of the map.rectangle object
+        $scope.map.rectangle.bounds = new maps.LatLngBounds(
+          new maps.LatLng(55,-100),
+          new maps.LatLng(49,-78)
+        );
+    });
+    
+    // Declare functions as variables that are used a lot in the javascript and do not need to be available to the $scope
+    var onMarkerClicked = function (marker) {
+        marker.showWindow = true;
+        $scope.$apply();
+        //window.alert("Marker: lat: " + marker.latitude + ", lon: " + marker.longitude + " clicked!!")
+    };
+    
+    // Attach (some) functions declared as 'var' variables to the $scope
+    // This might also be a useful way to 'angularize' a bunch of javascript code that someone else is working on
+    $scope.onMarkerClicked = onMarkerClicked;
+    
+    // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
+    // Useful for cleaning up the beginning of a JS file because you can place all of the busy details lower down in the file
+    angular.extend($scope.map, {
         events: {
             click: function (mapModel, eventName, originalEventArgs) {
                 // 'this' is the directive's scope
@@ -45,38 +81,80 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
             }
             
         },
+        markers2: [
+            {
+                id: 1,
+                latitude: 46,
+                longitude: -77,
+                showWindow: false,
+                options: {
+                    labelContent: '[46,-77]',
+                    labelAnchor: "22 0",
+                    labelClass: "marker-labels"
+                }
+            },
+            {
+                id: 2,
+                latitude: 33,
+                longitude: -77,
+                showWindow: false,
+                options: {
+                    labelContent: 'DRAG ME!',
+                    labelAnchor: "22 0",
+                    labelClass: "marker-labels",
+                    draggable: true
+                }
+            },
+            {
+                id: 3,
+                latitude: 35,
+                longitude: -125,
+                showWindow: false,
+                options: {
+                    labelContent: '[35,-125]',
+                    labelAnchor: "22 0",
+                    labelClass: "marker-labels"
+                }
+            }
+        ],
         rectangle: {
-            bounds:{},
             stroke: {
-              color: '#08B21F',
-              weight: 2,
-              opacity: 1
+                color: '#08B21F',
+                weight: 2,
+                opacity: 1
             },
             fill: {
-              color: 'pink',
-              opacity: 0.5
+                color: 'pink',
+                opacity: 0.5
             },
             events:{
-              dblclick: function(){
-                window.alert("rectangle dblclick");
-              }
+                dblclick: function(){
+                    window.alert("rectangle dblclick");
+                }
             },
             draggable: true, // optional: defaults to false
             clickable: true, // optional: defaults to true
             editable: true, // optional: defaults to false
             visible: true // optional: defaults to true
+        },
+        zoom: 3
+    });
+    
+    // Other functions
+    $scope.map.markers2Events = {
+        dragend: function (marker, eventName, model, args) {
+            model.options.labelContent = "Dragged lat: " + model.latitude + " lon: " + model.longitude;
         }
     };
-    $scope.markers = [];
     
-    // When maps API is initialized...
-    uiGmapGoogleMapApi.then(function(maps) {
-        // It seems like I should be putting all of the Google Maps related functions and variable assignements in here, but I encounter errors each time I try that...
-        console.log(maps);
-        $scope.map.rectangle.bounds = new maps.LatLngBounds(
-          new maps.LatLng(55,-100),
-          new maps.LatLng(49,-78)
-        );
+    $scope.map.markers2.forEach( function (marker) {
+        marker.onClicked = function () {
+            onMarkerClicked(marker);
+        };
+        marker.closeClick = function () {
+            marker.showWindow = false;
+            $scope.$evalAsync();
+        };
     });
     
     /*$scope.addMarker = function (position) {

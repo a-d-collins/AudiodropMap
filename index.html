@@ -21,6 +21,20 @@
         
         <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events">
             <ui-gmap-marker coords="map.clickedMarker"  idKey="map.clickedMarker.id" options="map.clickedMarker.options"></ui-gmap-marker>
+            <ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" click="onMarkerClicked" options="'options'" events="map.markers2Events">
+                <ui-gmap-windows show="'showWindow'" closeClick="'closeClick'" ng-cloak>
+                    <div>
+                        I should not be attached to a
+                        marker.
+                        <div ng-controller='InfoController'>
+                            <a class="btn" ng-click="clickedButtonInWindow()">CLICK ME</a>
+                        </div>
+                        <p ng-non-bindable >This is an info window at {{ latitude | number:4 }}, {{ longitude | number:4 }}!</p>
+
+                        <p class="muted">My marker will stay open when the window is popped up!</p>
+                    </div>
+                </ui-gmap-windows>
+            </ui-gmap-markers>
             <ui-gmap-rectangle bounds="map.rectangle.bounds" stroke="rectangle.stroke" visible="map.rectangle.visible"
                  fill="map.rectangle.fill" fit="false" editable="map.rectangle.editable" draggable="map.rectangle.draggable"
                  events="map.rectangle.events">
@@ -40,6 +54,7 @@
         <script src="js/app.js"></script>
         <!-- Controllers -->
         <script src="js/controllers/dropMapController.js"></script>
+        <script src="js/controllers/infoController.js"></script>
         <!-- Services -->
         
     </body>

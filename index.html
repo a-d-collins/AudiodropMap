@@ -26,6 +26,7 @@
                     <div>
                         I should not be attached to a
                         marker.
+                        <br>
                         <div ng-controller='InfoController'>
                             <a class="btn" ng-click="clickedButtonInWindow()">CLICK ME</a>
                         </div>
@@ -35,10 +36,15 @@
                     </div>
                 </ui-gmap-windows>
             </ui-gmap-markers>
+            
+            <!-- Rectangle example -->
             <ui-gmap-rectangle bounds="map.rectangle.bounds" stroke="rectangle.stroke" visible="map.rectangle.visible"
                  fill="map.rectangle.fill" fit="false" editable="map.rectangle.editable" draggable="map.rectangle.draggable"
                  events="map.rectangle.events">
         </ui-gmap-rectangle>
+            
+            <!-- Circle Example-->
+            <ui-gmap-circle ng-repeat="c in map.circles track by c.id" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" events="c.events" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable"></ui-gmap-circle>
         </ui-gmap-google-map>
         
         <form id="dropForm">

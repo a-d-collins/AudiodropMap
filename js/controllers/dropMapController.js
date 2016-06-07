@@ -19,6 +19,9 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         clickedMarker: {
             id: 0 // Note: All markers must have an id and a corresponding html element
         },
+        circles: [
+            // See angular.extend method for properties
+        ],
         events: {
             // See angular.extend method for more about the available events
         },
@@ -42,7 +45,6 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     var onMarkerClicked = function (marker) {
         marker.showWindow = true;
         $scope.$apply();
-        //window.alert("Marker: lat: " + marker.latitude + ", lon: " + marker.longitude + " clicked!!")
     };
     
     // Attach (some) functions declared as 'var' variables to the $scope
@@ -52,6 +54,34 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
     // Useful for cleaning up the beginning of a JS file because you can place all of the busy details lower down in the file
     angular.extend($scope.map, {
+        circles: [
+            {
+                id: 1,
+                radius: 30.48,
+                stroke: {
+                    color: '#08B21F',
+                    weight: 2,
+                    opacity: 1
+                },
+                fill: {
+                    color: '#08B21F',
+                    opacity: 0.5
+                },
+                geodesic: true, // optional: defaults to false
+                draggable: false, // optional: defaults to false
+                clickable: false, // optional: defaults to true
+                editable: false, // optional: defaults to false
+                visible: true, // optional: defaults to true
+                control: {}
+            }
+        ],
+        clickedMarker: {
+            id: 0,
+            showWindow: true
+        },
+        clickedMarkerWindow: {
+            show: false
+        },
         events: {
             click: function (mapModel, eventName, originalEventArgs) {
                 // 'this' is the directive's scope
@@ -62,16 +92,17 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 var e = originalEventArgs[0];
                 var lat = e.latLng.lat(),
                     lon = e.latLng.lng();
+                
                 $scope.map.clickedMarker = {
-                    id: 0,
                     latitude: lat,
                     longitude: lon,
                     options: {
-                      labelContent: 'You clicked here ' + 'lat: ' + lat + ' lon: ' + lon,
-                      labelClass: "marker-labels",
-                      labelAnchor:"100 0"
+                        animation: 2
                     }
                 };
+                
+                // Set center of circles[0] with radius 100ft(~30.48m)
+                $scope.map.circles[0].center = new google.maps.LatLng(lat, lon);
                 
                 // Update $scope.formData lat and lng with marker position
                 $scope.formData[0].value = $scope.map.clickedMarker.latitude;
@@ -137,7 +168,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
             editable: true, // optional: defaults to false
             visible: true // optional: defaults to true
         },
-        zoom: 3
+        //zoom: 3
     });
     
     // Other functions

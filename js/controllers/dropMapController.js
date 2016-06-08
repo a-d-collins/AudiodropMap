@@ -2,12 +2,15 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     // Form data
     // TODO -- Get form from Seth
     
-    // Data for the form that appears next to the map
-    $scope.formData = [
-        {dataType: "Longitude", value: undefined},
-        {dataType: "Latitude", value: undefined},
-        {dataType: "Album Name", value: "Abbey Road"},
-        {dataType: "In your opinion, is Paul dead?", value: "Yes"}
+    // General data for the form
+    
+    // User data for the form that appears next to the map
+    $scope.userFormData = [
+        {dataLabel: "Name:", value: undefined, type: "text", name: "label"},
+        {dataLabel: "Latitude:", value: undefined, type: "number", name: "lat"},
+        {dataLabel: "Longitude:", value: undefined, type: "number", name: "long"},
+        {dataLabel: "Album Name:", value: "Abbey Road", type: "text", name: "album"},
+        {dataLabel: "Comment: ", value: "My client prefers not to comment at this time", type: "text", name: "comment"}
     ];
     
     $scope.mapCenter = {latitude: 40.738341, longitude: -73.961062};
@@ -32,6 +35,17 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         // examine the maps object
         console.log(maps);
     });
+    
+    // Functions
+    // deleteMarker -- Arguments: none; Return: none; Role: Deletes the 'clickedMarker' and the circle associated with it.
+    $scope.deleteMarker = function () {
+        $scope.map.clickedMarker = null;
+        $scope.map.circles[0].center = {};
+        $scope.userFormData.forEach(function (el) {
+            el.value = undefined;
+        });
+        $scope.$apply();
+    };
     
     // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
     // Useful for cleaning up the beginning of a JS file because you can place all of the busy details lower down in the file
@@ -83,9 +97,9 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 // Set center of circles[0] with radius 100ft(~30.48m)
                 $scope.map.circles[0].center = new google.maps.LatLng(lat, lon);
                 
-                // Update $scope.formData lat and lng with marker position
-                $scope.formData[0].value = $scope.map.clickedMarker.latitude;
-                $scope.formData[1].value = $scope.map.clickedMarker.longitude;
+                // Update $scope.userFormData lat and lng with marker position
+                $scope.userFormData[1].value = $scope.map.clickedMarker.latitude;
+                $scope.userFormData[2].value = $scope.map.clickedMarker.longitude;
                 //scope apply required because this event handler is outside of the angular domain
                 $scope.$evalAsync();
             }

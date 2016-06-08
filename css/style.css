@@ -3,12 +3,16 @@
 **************************************************/
 
 html, body {
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    font-size: 12px;
     height: 100%;
     margin: 0;
     padding: 0;
-    text-align: center;
+    text-align: left;
+    /* Bootstrap stuff */
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
 }
 
 /**************************************************
@@ -17,10 +21,10 @@ html, body {
 
 .angular-google-map-container {
     display: block;
-    margin-right: 200px;
+    margin-left: 300px;
     padding: 0;
     position: relative;
-    height: 400px;
+    height: 500px;
 }
 
 /**************************************************
@@ -29,10 +33,19 @@ html, body {
 
 #dropForm {
     display: block;
+    padding: 10px;
     position: absolute;
-    right: 0;
+    left: -300;
     top: 0;
-    width: 200px;
+    width: 300px;
+}
+
+.formTitle {
+    margin-top: 0;
+}
+
+.formButtons {
+    display: inline;
 }
 
 /**************************************************

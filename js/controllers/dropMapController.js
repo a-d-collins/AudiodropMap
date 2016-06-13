@@ -1,19 +1,16 @@
 app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapApi', function($scope, $log, uiGmapGoogleMapApi) {
-    // Form data
-    // TODO -- Get form from Seth
-    
     // General data for the form
-    
     // User data for the form that appears next to the map
-    $scope.userFormData = [
-        {dataLabel: "Name:", value: undefined, type: "text", name: "label"},
-        {dataLabel: "Latitude:", value: undefined, type: "number", name: "lat"},
-        {dataLabel: "Longitude:", value: undefined, type: "number", name: "long"},
-        {dataLabel: "Album Name:", value: "Abbey Road", type: "text", name: "album"},
-        {dataLabel: "Comment: ", value: "My client prefers not to comment at this time", type: "text", name: "comment"}
-    ];
+    $scope.point = {
+        coords: [],
+        label: undefined,
+        _id: false
+    };
     
-    $scope.mapCenter = {latitude: 40.738341, longitude: -73.961062};
+    $scope.user = {};
+    
+    // Set mapCenter to New York, NY
+    $scope.mapCenter = {latitude: 40.7127837, longitude: -74.00594130000002};
     
     // Main map object. Contains all marker, shape, and other map-related data
     $scope.map= {
@@ -34,17 +31,54 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     uiGmapGoogleMapApi.then(function(maps) {
         // examine the maps object
         console.log(maps);
+        // Try locating user -- THIS MAY NEED TO BE CONVERTED INTO A PROMISE-BASED FUNCTION AND
+        // BE 'ANGULARIZED' (IF POSSIBLE)
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              $scope.user.pos = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+              };
+            
+              $scope.map.center = $scope.user.pos;
+              $scope.$apply();
+            }, function() {
+              handleLocationError(true, infoWindow, map.getCenter());
+            });
+          } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+          }
     });
     
     // Functions
     // deleteMarker -- Arguments: none; Return: none; Role: Deletes the 'clickedMarker' and the circle associated with it.
-    $scope.deleteMarker = function () {
+    $scope.deletePoint = function () {
         $scope.map.clickedMarker = null;
         $scope.map.circles[0].center = {};
-        $scope.userFormData.forEach(function (el) {
-            el.value = undefined;
-        });
-        $scope.$apply();
+        $scope.point.label = "";
+        $scope.point.coords = [];
+    };
+    
+    // noCoords -- Arguments point object; Return: boolean; Role: Determines ng-disabled state of update/create button
+    $scope.noCoords = function (pointObj) {
+        // Return true (and disable button) if longitude is undefined
+        return pointObj.coords[0] === undefined;
+    };
+    
+    $scope.updatePoint = function (pointObj) {
+        // Does nothing yet
+    };
+    
+    var angularGMapsBounds = function (bounds) {
+        var NE = bounds.getNorthEast(),
+            SW = bounds.getSouthWest();
+        
+        return {northeast: angularLatLng(NE), southwest: angularLatLng(SW)};
+    };
+    
+    var angularLatLng = function (LatLng) {
+        return {latitude: LatLng.lat(), longitude: LatLng.lng()};
     };
     
     // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
@@ -91,19 +125,58 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                     longitude: lon,
                     options: {
                         animation: 2
+                    },
+                    events: {
+                        dblclick: function (mapModel, eventName, originalEventArgs) {
+                            $scope.map.center = {latitude: $scope.map.clickedMarker.latitude, longitude: $scope.map.clickedMarker.longitude};
+                            $scope.map.zoom = 16;
+                        }
                     }
                 };
                 
                 // Set center of circles[0] with radius 100ft(~30.48m)
                 $scope.map.circles[0].center = new google.maps.LatLng(lat, lon);
                 
-                // Update $scope.userFormData lat and lng with marker position
-                $scope.userFormData[1].value = $scope.map.clickedMarker.latitude;
-                $scope.userFormData[2].value = $scope.map.clickedMarker.longitude;
+                // Update $scope.point lat and lng with marker position
+                $scope.point.coords[1] = $scope.map.clickedMarker.latitude;
+                $scope.point.coords[0] = $scope.map.clickedMarker.longitude;
+                
+                if ($scope.map.zoom > 19) {
+                    $scope.map.zoom = 19;
+                }
+                
                 //scope apply required because this event handler is outside of the angular domain
                 $scope.$evalAsync();
             }
             
+        },
+        searchbox: { 
+          template:'searchbox.tpl.html', 
+          events:{
+            places_changed: function (searchBox) {
+                // Array of places from searchBox
+                var places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                    return;
+                }
+                
+                // Save the first place
+                var place = places[0];
+                
+                // Create bounds object to hold place's bounds information
+                var bounds = new google.maps.LatLngBounds();
+                
+                if (place.geometry.viewport) {
+                  // Only geocodes have viewport.
+                  bounds.union(place.geometry.viewport);
+                } else {
+                  bounds.extend(place.geometry.location);
+                }
+                
+                $scope.map.bounds = angularGMapsBounds(bounds);
+            }
+          }
         }
     });
     

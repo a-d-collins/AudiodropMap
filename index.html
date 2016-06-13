@@ -13,7 +13,7 @@
         <script src='resources/Libraries/angular-google-maps.min.js'></script>
         
         <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         
         <!-- stylesheets -->
         <link rel="stylesheet" href="css/style.css">
@@ -22,33 +22,39 @@
 
     <body ng-app = "dropMapApp" ng-controller="dropMapController">
         <!-- TODO: Insert Audiodrops website navbar/menu here -->
-        
-        <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events">
-            <ui-gmap-marker coords="map.clickedMarker"  idKey="map.clickedMarker.id" options="map.clickedMarker.options"></ui-gmap-marker>
+        <script id="searchbox.tpl.html" type="text/ng-template">
+          <input id="pac-input" class = "controls" type="text" placeholder="Search">
+        </script>
+        <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events" bounds="map.bounds">
+            <ui-gmap-search-box template="map.searchbox.template" events="map.searchbox.events"></ui-gmap-search-box>
+            <ui-gmap-marker coords="map.clickedMarker"  idKey="map.clickedMarker.id" options="map.clickedMarker.options" events="map.clickedMarker.events"></ui-gmap-marker>
             
             <!-- Circle Example-->
             <ui-gmap-circle ng-repeat="c in map.circles track by c.id" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" events="c.events" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable"></ui-gmap-circle>
         </ui-gmap-google-map>
         
         <form id="dropForm">
-            <h2 class = "formTitle">Your Drop</h2>
-            <div ng-repeat="x in userFormData" class = "form-group">
-                <label class = "control-label">{{ x.dataLabel }}</label>
-                <input ng-disabled ="$index > 0 && $index < 3" ng-model="x.value" required class="input form-control" type="x.type" name="x.name" />
+            <h2 class = "formTitle">New Drop</h2>
+            <div class = "form-group">
+                <label class = "control-label">Name:</label>
+                <input required class="input form-control" type="text" name="label" ng-model="point.label" />
+            </div>
+            <div class = "form-group">
+                <label class = "control-label">Latitude:</label>
+                <input required ng-disabled = "true" class="input form-control" type="number" name="lat" min="-180" max="180"  ng-model="point.coords[1]" />
+            </div>
+            <div class = "form-group">
+                <label class = "control-label">Longitude:</label>
+                <input required ng-disabled = "true" class="input form-control" type="number" name="long" min="-180" max="180"  ng-model="point.coords[0]" />
             </div>
             <div class="form-group">
-                <div class="formButtons">
-                    <button class="btn btn-danger" ng-click="deleteMarker()" >delete</button>
-                </div>
-                <div class="formButtons">
-                    <button class="btn btn-info">create</button>
-                    <!--
-                    REPLACE ABOVE BUTTON WITH BELOW BUTTON WHEN ATTACHED TO REST OF AUDIODROPS APP
-                    <button class="btn btn-info"
+                <button class="btn btn-danger"
+                        ng-disabled="noCoords(point)"
+                        ng-click="deletePoint(point)">delete</button>
+                <button class="btn btn-info"
                         data-ng-class="{true: 'btn-primary', false: 'btn-info'}[!point._id]"
-                        ng-disabled="isPointUnchanged(point)"
+                        ng-disabled="noCoords(point)"
                         ng-click="updatePoint(point)">{{point._id ? 'update' : 'create'}}</button>
-                    </div>-->
             </div>
         </form>
         
@@ -56,8 +62,6 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <!-- AngularJS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
         
         <!-- Modules -->
         <script src="js/app.js"></script>

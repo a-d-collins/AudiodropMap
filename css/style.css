@@ -18,13 +18,50 @@ html, body {
 /**************************************************
 * Map styling
 **************************************************/
+.angular-google-map,
+.angular-google-map-container {
+  height: 100%;
+}
 
 .angular-google-map-container {
     display: block;
     margin-left: 300px;
     padding: 0;
     position: relative;
-    height: 500px;
+}
+
+.searchBox {
+    border: none;
+    border-radius: 2px;
+    height: 31px;
+    margin: 10px;
+    padding: 8px;
+    width: 250px;
+}
+
+.controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 31px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+}
+
+#pac-input:focus {
+    border-color: #4d90fe;
 }
 
 /**************************************************
@@ -33,6 +70,7 @@ html, body {
 
 #dropForm {
     display: block;
+    font-weight: 100;
     padding: 10px;
     position: absolute;
     left: -300;
@@ -40,14 +78,48 @@ html, body {
     width: 300px;
 }
 
-.formTitle {
-    margin-top: 0;
+.formTitle, .btn {
+    font-weight: inherit;
 }
 
-.formButtons {
-    display: inline;
+#dropForm label {
+    font-weight: 200;
+}
+
+.btn-update {
+    background-color: #00A1E4;
 }
 
 /**************************************************
 * Other styling
 **************************************************/
+
+/**************************************************
+* @media styling
+**************************************************/
+
+@media screen and (max-width: 350px) {
+    .angular-google-map {
+      height: 200px;
+    }
+    
+    .angular-google-map-container {
+        display: block;
+        margin-left: 0;
+        padding: 0;
+        position: relative;
+    }
+    
+    #dropForm {
+        display: block;
+        padding: 10px;
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    
+    .searchBox {
+        width: 150px;
+    }
+}

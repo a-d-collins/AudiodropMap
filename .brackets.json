@@ -1,5 +1,6 @@
 {
     "jscodehints.detectedExclusions": [
-        "/Users/Anthony/GitHub/AudioDrops/GoogleMapAngularApp/AudiodropMap/resources/Libraries/lodash.js"
+        "/Users/Anthony/GitHub/AudioDrops/GoogleMapAngularApp/AudiodropMap/resources/Libraries/lodash.js",
+        "/Users/Anthony/Sites/AudiodropMap/resources/Libraries/lodash.js"
     ]
 }

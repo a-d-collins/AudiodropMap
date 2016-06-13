@@ -49,15 +49,19 @@
             </div>
             <div class = "form-group">
                 <label class = "control-label"
-                       ng-click="toggleClass('track-glyph','rotate90Clockwise')"
+                       ng-click="toggleTrackListCollapse()"
                        data-toggle="collapse"
                        href="#collapseOne"
                        aria-expanded="true"
                        aria-controls="collapseOne">
-                    <span id="track-glyph" class = "rotate90Clockwise glyphicon glyphicon-chevron-right"></span> Track</label>
+                    <span id="track-glyph"
+                          class = "glyphicon glyphicon-chevron-right"
+                          data-ng-class="{true: '', false: 'rotate90Clockwise'}[track.collapsed]"></span> Track
+                    <span class = "fontWeight100" ng-show="track.collapsed"><i>"{{ track.info[2].data }}"</i></span>
+                </label>
                 <div id="collapseOne" class="collapse in">
                     <ul class="trackDataList" type="none">
-                        <li ng-repeat="x in track">
+                        <li ng-repeat="x in track.info">
                             <p>{{ x.dataType }}</p>
                             <input required ng-disabled = "true" class="input form-control" type="text" ng-model="x.data" />
                         </li>

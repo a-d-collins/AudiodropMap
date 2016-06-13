@@ -7,11 +7,14 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         _id: false
     };
     
-    $scope.track = [
-        {dataType: "Artist", data: "Sufjan Stevens"},
-        {dataType: "Album", data: "Satellite"},
-        {dataType: "Track", data: "Satellite"}
-    ];
+    $scope.track = {
+        info: [
+            {dataType: "Artist", data: "Sufjan Stevens"},
+            {dataType: "Album", data: "Satellite"},
+            {dataType: "Track", data: "Satellite"}
+        ],
+        collapsed: false
+    };
     
     $scope.user = {};
     
@@ -75,6 +78,11 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         alert("Unable to fulfill changeTrack() request on " + point.label + ". Functionality not yet built.");
     };
     
+    // toggleTrackListCollapse -- Role: toggles $scope.track.collapsed value, and in doing so adds more to the bootstrap collapse effect
+    $scope.toggleTrackListCollapse = function () {
+        $scope.track.collapsed = !$scope.track.collapsed;
+    };
+    
     // deletePoint -- Arguments: none; Return: none; Role: Deletes the 'clickedPoint' and the circle associated with it.
     $scope.deletePoint = function () {
         $scope.map.clickedPoint = null;
@@ -96,7 +104,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     // Toggle a single class of a given element
     $scope.toggleClass = function (elementID, elementClass) {
         document.getElementById(elementID).classList.toggle(elementClass);
-    } 
+    }
     
     // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
     // Useful for cleaning up the beginning of a JS file because you can place all of the busy details lower down in the file

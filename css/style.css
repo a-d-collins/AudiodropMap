@@ -93,14 +93,19 @@ html, body {
     background-color: #00A1E4;
 }
 
+.trackListLabel:hover {
+    text-decoration: underline;
+}
+
 .trackDataList {
     margin: 0;
     padding-left: 8px;
 }
 
-.trackDataList p, .trackDataList input {
-    display: inline;
+.trackDataList p {
+    margin: inherit;
 }
+
 /**************************************************
 * Other styling
 **************************************************/

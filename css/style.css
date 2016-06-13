@@ -73,7 +73,6 @@ html, body {
     font-weight: 100;
     padding: 10px;
     position: absolute;
-    left: -300;
     top: 0;
     width: 300px;
 }
@@ -90,9 +89,39 @@ html, body {
     background-color: #00A1E4;
 }
 
+.trackDataList {
+    margin: 0;
+    padding-left: 8px;
+}
+
+.trackDataList p, .trackDataList input {
+    display: inline;
+}
 /**************************************************
 * Other styling
 **************************************************/
+
+.centerText {
+    text-align: center;
+}
+
+.glyphicon {
+    font-size: 10px;
+    transition: all 0.2s ease;
+}
+
+.rotate90Clockwise {
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+}
+
+.no-margin-or-padding {
+    margin: 0;
+    padding: 0;
+}
 
 /**************************************************
 * @media styling

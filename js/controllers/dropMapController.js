@@ -7,6 +7,12 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         _id: false
     };
     
+    $scope.track = [
+        {dataType: "Artist", data: "Sufjan Stevens"},
+        {dataType: "Album", data: "Satellite"},
+        {dataType: "Track", data: "Satellite"}
+    ];
+    
     $scope.user = {};
     
     // Set mapCenter to New York, NY
@@ -16,7 +22,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     $scope.map= {
         center: $scope.mapCenter,
         zoom: 12,
-        clickedMarker: {
+        clickedPoint: {
             id: 0 // Note: All markers must have an id and a corresponding html element
         },
         circles: [
@@ -52,9 +58,26 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     });
     
     // Functions
-    // deleteMarker -- Arguments: none; Return: none; Role: Deletes the 'clickedMarker' and the circle associated with it.
+    
+    var angularGMapsBounds = function (bounds) {
+        var NE = bounds.getNorthEast(),
+            SW = bounds.getSouthWest();
+        
+        return {northeast: angularLatLng(NE), southwest: angularLatLng(SW)};
+    };
+    
+    var angularLatLng = function (LatLng) {
+        return {latitude: LatLng.lat(), longitude: LatLng.lng()};
+    };
+    
+    // changeTrack -- Arguments: point; Return: none; Role: Redirect user to page that allows him/her to change the track associated with a point
+    $scope.changeTrack = function (point) {
+        alert("Unable to fulfill changeTrack() request on " + point.label + ". Functionality not yet built.");
+    };
+    
+    // deletePoint -- Arguments: none; Return: none; Role: Deletes the 'clickedPoint' and the circle associated with it.
     $scope.deletePoint = function () {
-        $scope.map.clickedMarker = null;
+        $scope.map.clickedPoint = null;
         $scope.map.circles[0].center = {};
         $scope.point.label = "";
         $scope.point.coords = [];
@@ -70,16 +93,10 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         // Does nothing yet
     };
     
-    var angularGMapsBounds = function (bounds) {
-        var NE = bounds.getNorthEast(),
-            SW = bounds.getSouthWest();
-        
-        return {northeast: angularLatLng(NE), southwest: angularLatLng(SW)};
-    };
-    
-    var angularLatLng = function (LatLng) {
-        return {latitude: LatLng.lat(), longitude: LatLng.lng()};
-    };
+    // Toggle a single class of a given element
+    $scope.toggleClass = function (elementID, elementClass) {
+        document.getElementById(elementID).classList.toggle(elementClass);
+    } 
     
     // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
     // Useful for cleaning up the beginning of a JS file because you can place all of the busy details lower down in the file
@@ -105,7 +122,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 control: {}
             }
         ],
-        clickedMarker: {
+        clickedPoint: {
             id: 0,
             showWindow: true
         },
@@ -120,7 +137,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 var lat = e.latLng.lat(),
                     lon = e.latLng.lng();
                 
-                $scope.map.clickedMarker = {
+                $scope.map.clickedPoint = {
                     latitude: lat,
                     longitude: lon,
                     options: {
@@ -128,7 +145,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                     },
                     events: {
                         dblclick: function (mapModel, eventName, originalEventArgs) {
-                            $scope.map.center = {latitude: $scope.map.clickedMarker.latitude, longitude: $scope.map.clickedMarker.longitude};
+                            $scope.map.center = {latitude: $scope.map.clickedPoint.latitude, longitude: $scope.map.clickedPoint.longitude};
                             $scope.map.zoom = 16;
                         }
                     }
@@ -138,8 +155,8 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 $scope.map.circles[0].center = new google.maps.LatLng(lat, lon);
                 
                 // Update $scope.point lat and lng with marker position
-                $scope.point.coords[1] = $scope.map.clickedMarker.latitude;
-                $scope.point.coords[0] = $scope.map.clickedMarker.longitude;
+                $scope.point.coords[1] = $scope.map.clickedPoint.latitude;
+                $scope.point.coords[0] = $scope.map.clickedPoint.longitude;
                 
                 if ($scope.map.zoom > 19) {
                     $scope.map.zoom = 19;

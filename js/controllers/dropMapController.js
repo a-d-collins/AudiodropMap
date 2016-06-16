@@ -202,7 +202,64 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 $scope.map.bounds = angularGMapsBounds(bounds);
             }
           }
+        },
+        // TEMPORARY(6/16/2016) -- Markers2-related stuff
+        markers2: [
+            {
+                id: 1,
+                latitude: 46,
+                longitude: -77,
+                showWindow: false,
+                options: {
+                    labelContent: '[46,-77]',
+                    labelAnchor: "22 0",
+                    labelClass: "marker-labels"
+                }
+            },
+            {
+                id: 2,
+                latitude: 33,
+                longitude: -77,
+                showWindow: false,
+                options: {
+                    labelContent: 'DRAG ME!',
+                    labelAnchor: "22 0",
+                    labelClass: "marker-labels",
+                    draggable: true
+                }
+            },
+            {
+                id: 3,
+                latitude: 35,
+                longitude: -125,
+                showWindow: false,
+                options: {
+                    labelContent: '[35,-125]',
+                    labelAnchor: "22 0",
+                    labelClass: "marker-labels"
+                }
+            }
+        ]
+    });
+    
+    
+    
+    // TEMPORARY(6/16/2016) -- Markers2-related functions
+    // Other functions
+    $scope.map.markers2Events = {
+        dragend: function (marker, eventName, model, args) {
+            model.options.labelContent = "Dragged lat: " + model.latitude + " lon: " + model.longitude;
         }
+    };
+    
+    $scope.map.markers2.forEach( function (marker) {
+        marker.onClicked = function () {
+            onMarkerClicked(marker);
+        };
+        marker.closeClick = function () {
+            marker.showWindow = false;
+            $scope.$evalAsync();
+        };
     });
     
 }]);

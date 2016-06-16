@@ -106,6 +106,17 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         document.getElementById(elementID).classList.toggle(elementClass);
     }
     
+    // TEMPORARY(6/16/2016) -- Markers2-related stuff
+    // Declare functions as variables that are used a lot in the javascript and do not need to be available to the $scope
+    var onMarkerClicked = function (marker) {
+        marker.showWindow = true;
+        $scope.$apply();
+    };
+    
+    // Attach (some) functions declared as 'var' variables to the $scope
+    // This might also be a useful way to 'angularize' a bunch of javascript code that someone else is working on
+    $scope.onMarkerClicked = onMarkerClicked;
+    
     // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
     // Useful for cleaning up the beginning of a JS file because you can place all of the busy details lower down in the file
     angular.extend($scope.map, {

@@ -106,17 +106,6 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
         document.getElementById(elementID).classList.toggle(elementClass);
     }
     
-    // TEMPORARY(6/16/2016) -- Markers2-related stuff
-    // Declare functions as variables that are used a lot in the javascript and do not need to be available to the $scope
-    var onMarkerClicked = function (marker) {
-        marker.showWindow = true;
-        $scope.$apply();
-    };
-    
-    // Attach (some) functions declared as 'var' variables to the $scope
-    // This might also be a useful way to 'angularize' a bunch of javascript code that someone else is working on
-    $scope.onMarkerClicked = onMarkerClicked;
-    
     // This method allows you to alter/add to (a.k.a. 'extend') the properties of any earlier-declared object (e.g. $scope.map)
     // Useful for cleaning up the beginning of a JS file because you can place all of the busy details lower down in the file
     angular.extend($scope.map, {
@@ -142,8 +131,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
             }
         ],
         clickedPoint: {
-            id: 0,
-            showWindow: true
+            id: 0
         },
         events: {
             click: function (mapModel, eventName, originalEventArgs) {
@@ -220,7 +208,6 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 id: 1,
                 latitude: 46,
                 longitude: -77,
-                showWindow: false,
                 options: {
                     labelContent: '[46,-77]',
                     labelAnchor: "22 0",
@@ -231,7 +218,6 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 id: 2,
                 latitude: 33,
                 longitude: -77,
-                showWindow: false,
                 options: {
                     labelContent: 'DRAG ME!',
                     labelAnchor: "22 0",
@@ -243,7 +229,6 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 id: 3,
                 latitude: 35,
                 longitude: -125,
-                showWindow: false,
                 options: {
                     labelContent: '[35,-125]',
                     labelAnchor: "22 0",
@@ -265,11 +250,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
     
     $scope.map.markers2.forEach( function (marker) {
         marker.onClicked = function () {
-            onMarkerClicked(marker);
-        };
-        marker.closeClick = function () {
-            marker.showWindow = false;
-            $scope.$evalAsync();
+            // Do nothing
         };
     });
     

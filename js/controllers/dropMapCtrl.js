@@ -210,7 +210,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 longitude: -77,
                 options: {
                     labelContent: '[46,-77]',
-                    labelAnchor: "22 0",
+                    labelAnchor: "0 0",
                     labelClass: "marker-labels"
                 }
             },
@@ -220,9 +220,9 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 longitude: -77,
                 options: {
                     labelContent: 'DRAG ME!',
-                    labelAnchor: "22 0",
+                    labelAnchor: "0 0",
                     labelClass: "marker-labels",
-                    draggable: true
+                    //draggable: true
                 }
             },
             {
@@ -231,7 +231,7 @@ app.controller('dropMapController', ['$scope', 'uiGmapLogger', 'uiGmapGoogleMapA
                 longitude: -125,
                 options: {
                     labelContent: '[35,-125]',
-                    labelAnchor: "22 0",
+                    labelAnchor: "0 0",
                     labelClass: "marker-labels"
                 }
             }

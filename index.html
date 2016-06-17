@@ -17,77 +17,81 @@
         
         <!-- stylesheets -->
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/dropMapStyles.css">
 
     </head>
 
-    <body ng-app = "dropMapApp" ng-controller="dropMapController">
-        <!-- TODO: Insert Audiodrops website navbar/menu here -->
-        <script id="searchbox.tpl.html" type="text/ng-template">
-          <input id="pac-input" class = "controls" type="text" placeholder="Search">
-        </script>
-        <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events" bounds="map.bounds">
-            <ui-gmap-search-box template="map.searchbox.template" events="map.searchbox.events"></ui-gmap-search-box>
-            
-            <!-- markers -->
-            <ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" click="onMarkerClicked" options="'options'" events="map.markers2Events">
-            </ui-gmap-markers>
-            
-            <!-- clickedPoint -->
-            <ui-gmap-marker coords="map.clickedPoint"  idKey="map.clickedPoint.id" options="map.clickedPoint.options" events="map.clickedPoint.events"></ui-gmap-marker>
-            
-            <!-- Circle Example-->
-            <ui-gmap-circle ng-repeat="c in map.circles track by c.id" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" events="c.events" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable"></ui-gmap-circle>
-        </ui-gmap-google-map>
-        
-        <form id="dropForm">
-            <h2 class = "formTitle">New Drop</h2>
-            <div class = "form-group">
-                <label class = "control-label">Drop Name</label>
-                <input required class="input form-control" type="text" name="label" ng-model="point.label" />
-            </div>
-            <div class = "form-group">
-                <label class = "control-label">Latitude</label>
-                <input required ng-disabled = "true" class="input form-control" type="number" name="lat" min="-180" max="180"  ng-model="point.coords[1]" />
-            </div>
-            <div class = "form-group">
-                <label class = "control-label">Longitude</label>
-                <input required ng-disabled = "true" class="input form-control" type="number" name="long" min="-180" max="180"  ng-model="point.coords[0]" />
-            </div>
-            <div class = "form-group">
-                <label class = "control-label trackListLabel"
-                       ng-click="toggleTrackListCollapse()"
-                       data-toggle="collapse"
-                       href="#collapseOne"
-                       aria-expanded="true"
-                       aria-controls="collapseOne">
-                    <span id="track-glyph"
-                          class = "glyphicon glyphicon-chevron-right"
-                          data-ng-class="{true: '', false: 'rotate90Clockwise'}[track.collapsed]"></span> Track
-                    <span class = "fontWeight100" ng-show="track.collapsed"><i>"{{ track.info[2].data }}"</i></span>
-                </label>
-                <div id="collapseOne" class="collapse in">
-                    <ul class="trackDataList" type="none">
-                        <li ng-repeat="x in track.info">
-                            <p>{{ x.dataType }}</p>
-                            <input required ng-disabled = "true" class="input form-control" type="text" ng-model="x.data" />
-                        </li>
-                    </ul>
-                    <div class = "centerText">
-                        <a class="no-margin-or-padding" ng-click="changeTrack(point)">change track</a>
-                    </div>
+    <body>
+        <div id = "dropMapApplication" ng-app = "dropMapApp" ng-controller="dropMapController">
+            <!-- TODO: Insert Audiodrops website navbar/menu here -->
+            <script id="searchbox.tpl.html" type="text/ng-template">
+              <input id="pac-input" class = "controls" type="text" placeholder="Search">
+            </script>
+            <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events" bounds="map.bounds">
+                <ui-gmap-search-box template="map.searchbox.template" events="map.searchbox.events"></ui-gmap-search-box>
+
+                <!-- markers example -->
+                <ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" click="onMarkerClicked" options="'options'" events="map.markers2Events">
+                </ui-gmap-markers>
+
+                <!-- clickedPoint -->
+                <ui-gmap-marker coords="map.clickedPoint"  idKey="map.clickedPoint.id" options="map.clickedPoint.options" events="map.clickedPoint.events"></ui-gmap-marker>
+
+                <!-- Circle around clickedPoint-->
+                <ui-gmap-circle ng-repeat="c in map.circles track by c.id" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" events="c.events" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable"></ui-gmap-circle>
+            </ui-gmap-google-map>
+
+            <form id="dropForm">
+                <h2 class = "formTitle">New Drop</h2>
+                <div class = "form-group">
+                    <label class = "control-label">Drop Name</label>
+                    <input required class="input form-control" type="text" name="label" ng-model="point.label" />
                 </div>
-                
-            </div>
-            <div class="form-group">
-                <button class="btn btn-danger"
-                        ng-disabled="noCoords(point)"
-                        ng-click="deletePoint(point)">delete</button>
-                <button class="btn btn-info"
-                        data-ng-class="{true: 'btn-primary', false: 'btn-info'}[!point._id]"
-                        ng-disabled="noCoords(point)"
-                        ng-click="updatePoint(point)">{{point._id ? 'update' : 'create'}}</button>
-            </div>
-        </form>
+                <div class = "form-group">
+                    <label class = "control-label">Latitude</label>
+                    <input required ng-disabled = "true" class="input form-control" type="number" name="lat" min="-180" max="180"  ng-model="point.coords[1]" />
+                </div>
+                <div class = "form-group">
+                    <label class = "control-label">Longitude</label>
+                    <input required ng-disabled = "true" class="input form-control" type="number" name="long" min="-180" max="180"  ng-model="point.coords[0]" />
+                </div>
+                <div class = "form-group">
+                    <label class = "control-label trackListLabel"
+                           ng-click="toggleTrackListCollapse()"
+                           data-toggle="collapse"
+                           href="#collapseOne"
+                           aria-expanded="true"
+                           aria-controls="collapseOne">
+                        <span id="track-glyph"
+                              class = "glyphicon glyphicon-chevron-right"
+                              data-ng-class="{true: '', false: 'rotate90Clockwise'}[track.collapsed]"></span> Track
+                        <span class = "fontWeight100" ng-show="track.collapsed"><i>"{{ track.info[2].data }}"</i></span>
+                    </label>
+                    <div id="collapseOne" class="collapse in">
+                        <ul class="trackDataList" type="none">
+                            <li ng-repeat="x in track.info">
+                                <p>{{ x.dataType }}</p>
+                                <input required ng-disabled = "true" class="input form-control" type="text" ng-model="x.data" />
+                            </li>
+                        </ul>
+                        <div class = "centerText">
+                            <a class="no-margin-or-padding" ng-click="changeTrack(point)">change track</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-danger"
+                            ng-disabled="noCoords(point)"
+                            ng-click="deletePoint(point)">delete</button>
+                    <button class="btn btn-info"
+                            data-ng-class="{true: 'btn-primary', false: 'btn-info'}[!point._id]"
+                            ng-disabled="noCoords(point)"
+                            ng-click="updatePoint(point)">{{point._id ? 'update' : 'create'}}</button>
+                </div>
+            </form>
+        </div>
+        
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -95,10 +99,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         
         <!-- Modules -->
-        <script src="js/app.js"></script>
+        <script src="js/mapApp.js"></script>
         <!-- Controllers -->
-        <script src="js/controllers/dropMapController.js"></script>
-        <script src="js/controllers/infoController.js"></script>
+        <script src="js/controllers/dropMapCtrl.js"></script>
         <!-- Services -->
     </body>
 </html>

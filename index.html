@@ -56,19 +56,17 @@
                     <input required ng-disabled = "true" class="input form-control" type="number" name="long" min="-180" max="180"  ng-model="point.coords[0]" />
                 </div>
                 <div class = "form-group">
-                    <label class = "control-label trackListLabel"
-                           ng-click="toggleTrackListCollapse()"
-                           data-toggle="collapse"
-                           href="#collapseOne"
-                           aria-expanded="true"
-                           aria-controls="collapseOne">
+                    <label class = "trackListLabel"
+                           ng-click="toggleTrackListCollapse()">
                         <span id="track-glyph"
                               class = "glyphicon glyphicon-chevron-right"
                               data-ng-class="{true: '', false: 'rotate90Clockwise'}[track.collapsed]"></span> Track
                         <span class = "fontWeight100" ng-show="track.collapsed"><i>"{{ track.info[2].data }}"</i></span>
                     </label>
-                    <div id="collapseOne" class="collapse in">
-                        <ul class="trackDataList" type="none">
+                    <div>
+                        <ul class="trackDataList"
+                            type="none"
+                            data-ng-class="{true: 'closed', false: ''}[track.collapsed]">
                             <li ng-repeat="x in track.info">
                                 <p>{{ x.dataType }}</p>
                                 <input required ng-disabled = "true" class="input form-control" type="text" ng-model="x.data" />

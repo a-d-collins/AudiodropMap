@@ -108,6 +108,19 @@
     margin: inherit;
 }
 
+.trackDataList {
+    height: 162px;
+    overflow: hidden;
+    -webkit-transition: height 0.5s ease; /* Safari */
+    -moz-transition: height 0.5s ease;
+    -o-transition: height 0.5s ease;
+    transition: height 0.5s ease;
+}
+
+.closed {
+    height: 0;
+}
+
 /**************************************************
 * Other styling
 **************************************************/
